@@ -1,10 +1,10 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude -g
 
-SRC_DIR = ./src
-OBJ_DIR = ./obj
-INCLUDE_DIR = ./include
-BIN_DIR = ./bin
+SRC_DIR = src
+OBJ_DIR = obj
+INCLUDE_DIR = include
+BIN_DIR = bin
 
 TARGET = $(BIN_DIR)/myhttpd
 
