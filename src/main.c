@@ -43,8 +43,19 @@ int main() {
    printf("Parsed HTTP Headers:\n");
    for (size_t i = 0; i < req.header_count; i++) {
       printf("%s: %s\n", req.headers[i].key, req.headers[i].value);
-   }   
+   }
 
+   http_response response;
+   init_http_response(&response);
+   add_http_header(&response, "Content-Type", "text/html");
+   add_http_header(&response, "Connection", "close");
+
+   printf("HTTP Response Headers:\n");
+   for(size_t i = 0; i < response.header_count; i++){
+    printf("%s: %s\n", response.headers[i].key, response.headers[i].value);
+   }
+
+   free_http_response(&response);
    free_http_headers(&req);
    
    close(client_fd);

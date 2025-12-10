@@ -3,6 +3,32 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void add_http_header(http_response *response, const char *key, const char *value){
+    response->headers = realloc(response->headers, sizeof(http_header_t) * (response->header_count+1));
+    if(!response->headers){
+        perror("Failed to allocate memory fdor headers");
+        exit(EXIT_FAILURE);
+    }
+    strncpy(response->headers[response->header_count].key, key, sizeof(response->headers[response->header_count].key)-1);
+    strncpy(response->headers[response->header_count].value, value, sizeof(response->headers[response->header_count].value));
+    response->header_count++;
+}
+
+void free_http_response(http_response *response){
+    free(response->headers);
+    response->headers = NULL;
+    response->header_count = 0;
+}
+
+void init_http_response(http_response *response) {
+    response->status_code = 200; // Default to OK
+    strncpy(response->reason_phrase, "OK", sizeof(response->reason_phrase) - 1);
+    response->headers = NULL;
+    response->header_count = 0;
+    response->body = NULL;
+    response->body_length = 0;
+}
+
 http_parse_e parse_http_headers(const char *raw_request, http_request *request) {
     const char *line_start = strstr(raw_request, "\r\n");
     if(!line_start) return HTTP_PARSE_INVALID;
