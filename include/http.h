@@ -53,7 +53,10 @@ typedef struct {
     size_t body_length; //Length of the response body
 } http_response;
 
+void send_http_response(int client_fd, const http_response *response);
+char *construct_http_response(const http_response *response, size_t *response_length);
 void init_http_response(http_response *response);
+void set_http_body(http_response *response,const char *body);
 void add_http_header(http_response *response, const char *key, const char *value);
 void free_http_response();
 http_parse_e parse_http_headers(const char *raw_request, http_request *request);

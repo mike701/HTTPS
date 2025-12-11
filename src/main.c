@@ -49,11 +49,13 @@ int main() {
    init_http_response(&response);
    add_http_header(&response, "Content-Type", "text/html");
    add_http_header(&response, "Connection", "close");
+   set_http_body(&response, "<html><body><h1>Hello, world!</h1></body></html>\0");
 
    printf("HTTP Response Headers:\n");
    for(size_t i = 0; i < response.header_count; i++){
     printf("%s: %s\n", response.headers[i].key, response.headers[i].value);
    }
+   send_http_response(client_fd, &response);
 
    free_http_response(&response);
    free_http_headers(&req);
